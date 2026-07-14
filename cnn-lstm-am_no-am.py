@@ -1,9 +1,5 @@
-# ablation_fit_residual_reconstruct_yield_TimeAtt_mergePlain.py
-# 消融实验：拟合 Residual，然后用 Trend 重构 Yield，进行精度评价
+# 拟合 Residual，然后用 Trend 重构 Yield，进行精度评价
 # 模型：CNN + LSTM + (Time-Att可选) + Region Emb + Stage Emb
-#   ✅ 导出训练集/测试集每样本结果到一个 Excel（两个Sheet：train/test）
-#   ✅ 仍然打印 Residual 与 Reconstructed Yield 的 Train/Val/Test 精度
-
 import os
 import random
 from datetime import datetime
@@ -48,7 +44,7 @@ COL_RESID = "Residual"
 COL_TREND = "Trend"
 
 # Feature processing
-ADD_YEAR_TO_X = True  # 把 YEAR 作为一个额外特征
+ADD_YEAR_TO_X = True
 
 # Split
 SEED = 43
@@ -362,7 +358,7 @@ def export_pred_excel_two_sheets(
 
 
 # =========================
-# 7) One run per mode (Target=Residual; Eval=Yield recon)
+# 7) One run per mode
 # =========================
 def run_one_mode(
     mode: str,
@@ -503,7 +499,6 @@ def run_one_mode(
             out_path=out_path,
         )
 
-    # 返回：以“重构产量”的 test 指标为主用于消融排序
     return {
         "mode": mode,
         "tau_time": float(TAU_TIME),
